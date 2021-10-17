@@ -4,14 +4,21 @@ import json
 from json.encoder import JSONEncoder
 
 class Vertex():
-    def __init__(self, vid, dst = None):
+    def __init__(self, vid, dst = None, value = float('inf')):
         self.id = vid
         self.neighbors = []
+        self.value = value
         if dst is not None:
             self.neighbors.append(dst)
 
     def add_neighbor(self, dst):
         self.neighbors.append(dst)
+
+    def write_value(self, value):
+        self.value.append(value)
+
+    def read_value(self, value):
+        return value
 
 class VertexEncoder(JSONEncoder):
     def default(self, o):
