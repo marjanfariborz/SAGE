@@ -31,6 +31,16 @@ class Vertex():
     def __repr__(self):
         return str(self)
 
+    def get_neighbors(self):
+        return self.neighbors
+
+    def __str__(self):
+        ret = f"id={self.id}, neighbours={self.neighbors}\n"
+        return ret
+
+    def __repr__(self):
+        return str(self)
+
 class VertexEncoder(JSONEncoder):
     def default(self, o):
         return o.__dict__
