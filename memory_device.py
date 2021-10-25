@@ -32,7 +32,7 @@ class MemoryDevice():
                 return item
 
     def __str__(self):
-        return f"channel[edge_lists={str(self.vertices)}, work_list={str(self.work_list)}]"
+        return f"MemoryDevice[edge_lists={str(self.vertices)}, work_list={str(self.work_list)}]"
 
     def __repr__(self):
         return str(self)
