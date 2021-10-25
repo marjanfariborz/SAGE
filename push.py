@@ -4,7 +4,6 @@ class Push():
         self.op = op
         self.localQ = []
         self.globalQ = []
-        self.id = id
 
     def recv_update(self, vid, value, weight):
         '''

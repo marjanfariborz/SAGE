@@ -25,7 +25,7 @@ class Vertex():
         return self.neighbors
 
     def __str__(self):
-        ret = f"id={self.id}, neighbours={self.neighbors}\n"
+        ret = f"vertex[id={self.id}, neighbours={self.neighbors}]"
         return ret
 
     def __repr__(self):
@@ -34,33 +34,32 @@ class Vertex():
     def get_neighbors(self):
         return self.neighbors
 
-    def __str__(self):
-        ret = f"id={self.id}, neighbours={self.neighbors}\n"
-        return ret
-
-    def __repr__(self):
-        return str(self)
-
 class VertexEncoder(JSONEncoder):
     def default(self, o):
         return o.__dict__
 
-class Channel():
-    def __init__(self, cid, vertices = None):
-        self.id = cid
+class MemoryDevice():
+    def __init__(self, vertices = None, work_list = None):
 
         self.vertices = []
         if vertices is not None:
             self.vertices = vertices
 
+        self.work_list = []
+        if work_list is not None:
+            self.work_list = work_list
+
     def add_vertex(self, vertex):
         self.vertices.append(vertex)
 
+    def write_work_list_item(self, wl_item):
+        """If item no exist append item to work_list
+        else it should overwrite existing item with wl_item
+        """
+        pass
+
     def __str__(self):
-        ret = ""
-        for vertex in self.vertices:
-            ret += str(vertex)
-        return ret
+        return f"channel[vertices={str(self.vertices)}, work_list={str(self.work_list)}]"
 
     def __repr__(self):
         return str(self)
