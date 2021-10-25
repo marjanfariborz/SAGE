@@ -1,68 +1,6 @@
 import re
-import json
 
-from json.encoder import JSONEncoder
 
-class Vertex():
-    def __init__(self, vid, dst = None, value = float('inf')):
-        self.id = vid
-        self.neighbors = []
-        self.value = value
-        self.tempValue = value
-        if dst is not None:
-            self.neighbors.append(dst)
-
-    def add_neighbor(self, dst):
-        self.neighbors.append(dst)
-
-    def write_value(self, value):
-        self.value.append(value)
-
-    def read_value(self):
-        return self.value
-
-    def get_neighbors(self):
-        return self.neighbors
-
-    def __str__(self):
-        ret = f"vertex[id={self.id}, neighbours={self.neighbors}]"
-        return ret
-
-    def __repr__(self):
-        return str(self)
-
-    def get_neighbors(self):
-        return self.neighbors
-
-class VertexEncoder(JSONEncoder):
-    def default(self, o):
-        return o.__dict__
-
-class MemoryDevice():
-    def __init__(self, vertices = None, work_list = None):
-
-        self.vertices = []
-        if vertices is not None:
-            self.vertices = vertices
-
-        self.work_list = []
-        if work_list is not None:
-            self.work_list = work_list
-
-    def add_vertex(self, vertex):
-        self.vertices.append(vertex)
-
-    def write_work_list_item(self, wl_item):
-        """If item no exist append item to work_list
-        else it should overwrite existing item with wl_item
-        """
-        pass
-
-    def __str__(self):
-        return f"channel[vertices={str(self.vertices)}, work_list={str(self.work_list)}]"
-
-    def __repr__(self):
-        return str(self)
 
 def read_graph(file_name):
     vertices = {}

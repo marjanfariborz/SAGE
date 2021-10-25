@@ -1,7 +1,7 @@
 
 class MemoryDevice():
-    def __init__(self, edge_lists = None, work_list = None):
-
+    def __init__(self, owner, edge_lists = None, work_list = None):
+        self.owner = owner
         self.edge_lists = []
         if edge_lists is not None:
             self.edge_lists = edge_lists
