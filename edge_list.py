@@ -25,7 +25,7 @@ class EdgeList():
         return self.neighbors
 
     def __str__(self):
-        ret = f"vertex[id={self.id}, neighbours={self.neighbors}]"
+        ret = f"EdgeList[id={self.id}, neighbours={self.neighbors}]"
         return ret
 
     def __repr__(self):

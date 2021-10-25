@@ -12,3 +12,7 @@ class MPU():
 
     def write_work_list_item(self, item):
         self.mem_dev.write_work_list_item(item)
+
+    def write_edge_list(self, edge_list):
+        self.mem_dev.write_edge_list(edge_list)
+
