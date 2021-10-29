@@ -1,9 +1,19 @@
 from json.encoder import JSONEncoder
 
 class Edge():
-    def __init__(self, neighbor, weight):
+    def __init__(self, vid, neighbor, weight):
+        self.vid = vid
         self.neighbor = neighbor
         self.weight = weight
+
+    def get_vid(self):
+        return self.vid
+
+    def get_neighbor(self):
+        return self.neighbor
+
+    def get_weight(self):
+        return self.weight
 
 class WorkListItem():
     def __init__(self, vid, temp_prop, prop, valid):
@@ -11,6 +21,9 @@ class WorkListItem():
         self.temp_prop = temp_prop
         self.prop = prop
         self.valid = valid
+
+    def get_vid(self):
+        return self.vid
 
     def get_temp_prop(self):
         return self.temp_prop

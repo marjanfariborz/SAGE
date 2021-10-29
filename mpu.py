@@ -1,10 +1,14 @@
 from wl_engine import WLEngine
 from memory_device import MemoryDevice
+from reduce_apply import Apply
+from push import Push
 
 class MPU():
-    def __init__(self, mid, operation):
+    def __init__(self, mid, propagate, reduce):
         self.id = mid
-        self.wl_engine = WLEngine(self, operation)
+        self.wl_engine = WLEngine(self, reduce)
+        self.reduce_apply = Apply(self, reduce)
+        self.push = Push(self, propagate)
         self.mem_dev = MemoryDevice(self)
 
     def read_work_list_item(self, vid):
