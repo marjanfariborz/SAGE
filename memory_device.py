@@ -1,41 +1,35 @@
 
 class MemoryDevice():
-    def __init__(self, owner, edge_lists = None, work_list = None):
+    def __init__(self, owner):
         self.owner = owner
-        self.edge_lists = []
-        if edge_lists is not None:
-            self.edge_lists = edge_lists
+        self.vertices = []
 
-        self.work_list = []
-        if work_list is not None:
-            self.work_list = work_list
-
-    def write_edge_list(self, edge_list):
-        self.edge_lists.append(edge_list)
+    def add_vertex(self, vertex):
+        self.vertices.append(vertex)
 
     def read_edge_list(self, vid):
-        for edge_list in self.edge_lists:
-            if edge_list[0].get_id() == vid:
-                return edge_list
-        raise Exception(f"Could not find the edge list with vid: {vid}")
+        for vertex in self.vertices():
+            if vertex.get_id() == vid:
+                return vertex.get_edges()
+        raise Exception(f"I don't have a vertex with id {vid}")
 
     def append_work_list_item(self, wl_item):
         self.work_list.append(wl_item)
 
     def write_work_list_item(self, wl_item):
-        for i in range(len(self.work_list)):
-            if  wl_item.get_id() == self.work_list[i].get_id():
-                self.work_list[i] = wl_item
-                return
-        self.work_list.append(wl_item)
+        vid = wl_item.get_vid()
+        for i in range(len(self.vertices())):
+            if self.vertices[i].get_id() == vid:
+                self.vertices[i].set_work_list_item(wl_item)
+        raise Exception(f"I don't have a vertex with id {vid}")
 
     def read_work_list_item(self, vid):
-        for item in self.work_list:
-            if vid == item.get_id():
-                return item
+        for vertex in self.vertices():
+            if vertex.get_id() == vid:
+                return vertex.get_work_list_item()
 
     def __str__(self):
-        return f"MemoryDevice[edge_lists={str(self.vertices)}, work_list={str(self.work_list)}]"
+        return f"MemoryDevice[vertices={str(self.vertices)}]"
 
     def __repr__(self):
         return str(self)

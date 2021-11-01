@@ -16,6 +16,11 @@ class Edge:
     def get_weight(self):
         return self.weight
 
+    def __str__(self):
+        return f"Edge[vid={self.vid}, neighbor={self.neighbor}, weight={self.weight}]"
+
+    def __repr__(self):
+        return str(self)
 
 class WorkListItem:
     def __init__(self, vid, temp_prop, prop, valid):
@@ -49,7 +54,7 @@ class WorkListItem:
         self.valid = False
 
     def __str__(self):
-        ret = f"WorkListItem[temp_prop={self.temp_prop}, prop={self.prop}, valid={self.valid}]"
+        ret = f"WorkListItem[vid={self.vid}, temp_prop={self.temp_prop}, prop={self.prop}, valid={self.valid}]"
         return ret
 
     def __repr__(self):
@@ -71,6 +76,12 @@ class Vertex:
 
     def new_id(self, vid):
         self.id = vid
+
+    def get_work_list_item(self):
+        return self.work_list_item
+
+    def set_work_list_item(self, item):
+        self.work_list_item = item
 
     def add_edge(self, edge):
         self.edges.append(edge)
@@ -94,13 +105,17 @@ class Vertex:
         self.out_degree = self.out_degree + 1
 
     def __str__(self):
-        ret = f"EdgeList[id={self.id}, neighbours={self.edges}, degree={self.degree}]"
-        return ret
+        return f"Vertex[id={self.id}, degree={self.degree}, work_list={str(self.work_list_item)}, edges={str(self.edges)}]"
 
     def __repr__(self):
         return str(self)
 
-
-class EdgeListEncoder(JSONEncoder):
-    def default(self, o):
-        return o.__dict__
+class VertexEncoder(JSONEncoder):
+    def default(self, vertex):
+        ret = dict()
+        ret["id"] = vertex.get_id()
+        ret["work_list_item"] = vertex.get_work_list_item().__dict__
+        ret["edges"] = []
+        for edge in vertex.get_edges():
+            ret["edges"].append(edge.__dict__)
+        return ret
