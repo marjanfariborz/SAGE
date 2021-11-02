@@ -28,11 +28,11 @@ class WorkListItem():
     def get_temp_prop(self):
         return self.temp_prop
 
-    def set_temp_prop(self, temp_prop):
-        self.temp_prop = temp_prop
-
     def get_prop(self):
         return self.prop
+
+    def set_prop(self, temp_prop):
+        self.temp_prop = temp_prop
 
     def set_prop(self, prop):
         self.prop = prop
@@ -57,19 +57,40 @@ class Vertex():
     def __init__(self, vid):
         self.id = vid
         self.edges = []
+        self.degree = 0
+        self.address = None
         self.work_list_item = None
 
     def get_id(self):
         return self.id
 
+    def new_id(self, id):
+        self.id = id
+
     def add_edge(self, edge):
         self.edges.append(edge)
+
+    def update_edge(self, new_edge, index):
+        self.edges[index] = new_edge
 
     def get_edges(self):
         return self.edges
 
+    def get_degree(self):
+        return self.degree
+
+    def set_address(self, address):
+        self.address = address
+
+    def get_address(self):
+        return self.address
+
+    def increase_degree(self):
+        self.degree = int(self.get_degree()) + 1
+
+
     def __str__(self):
-        ret = f"EdgeList[id={self.id}, neighbours={self.edges}]"
+        ret = f"EdgeList[id={self.id}, neighbours={self.edges}, degree={self.degree}]"
         return ret
 
     def __repr__(self):
