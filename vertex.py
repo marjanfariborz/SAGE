@@ -121,3 +121,5 @@ class VertexEncoder(JSONEncoder):
         for edge in vertex.get_edges():
             ret["edges"].append(edge.__dict__)
         return ret
+
+# TODO: Implement JSONDecoder

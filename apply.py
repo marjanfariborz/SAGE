@@ -43,4 +43,4 @@ class Apply():
         self.arbitrate()
 
     def send_work(self, edges, new_prop):
-        self.owner.recv_work(self, edges, new_prop)
+        self.owner.recv_work(edges, new_prop)

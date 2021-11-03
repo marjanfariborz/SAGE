@@ -25,7 +25,7 @@ class MPU():
         self.mem_dev.write_edge_list(edge_list)
 
     def read_edge_list(self, vid):
-        self.mem_dev.read_edge_list(vid)
+        return self.mem_dev.read_edge_list(vid)
 
     def recv_candidate(self, vid):
         self.reduce_apply.recv_candidate(vid)
@@ -34,7 +34,7 @@ class MPU():
         self.push.recv_work(edges, new_prop)
 
     def recv_updates(self, updates):
-        self.network.recv_update(updates)
+        self.network.recv_updates(updates)
 
     def recv_update(self, update):
         self.wl_engine.recv_update(update)
@@ -47,3 +47,9 @@ class MPU():
 
     def has_vertex(self, vid):
         return self.mem_dev.has_vertex(vid)
+
+    def __str__(self):
+        return f"MPU[id={self.id}, memory={self.mem_dev}]"
+
+    def __repr__(self):
+        return "\n\n" + str(self)
