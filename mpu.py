@@ -1,6 +1,6 @@
 from wl_engine import WLEngine
 from memory_device import MemoryDevice
-from reduce_apply import Apply
+from apply import Apply
 from push import Push
 
 class MPU():
