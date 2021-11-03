@@ -1,0 +1,20 @@
+# Test graph
+# Test graph for SAGE
+# Nodes: 6 Edges: 8
+# FromNodeId	ToNodeId
+0 1
+0 2
+0 3
+0 4
+0 5
+1 0
+1 2
+2 0
+2 1
+2 5
+3 0
+3 5
+4 0
+5 0
+5 2
+5 3
