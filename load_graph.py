@@ -6,7 +6,6 @@ from mpu import MPU
 def read_graph(file_name, mpu_num):
     vertices = {}
     count = 0
-    pf_sum = []
     with open(file_name, "r") as graph:
         for line in graph.readlines():
             if not line.startswith("#"):
@@ -15,18 +14,17 @@ def read_graph(file_name, mpu_num):
                 dst = int(dst)
                 if src in vertices.keys():
                     vertices[src].add_edge(dst)
-                    vertices[src].increase_degree()
+                    vertices[src].increase_out_degree()
                 else:
                     count = count + 1
                     vertices[src] = Vertex(src)
                     vertices[src].add_edge(dst)
-                    vertices[src].increase_degree()
-    id_degree = {}
+                    vertices[src].increase_out_degree()
     degree = []
     consume = 0
     for _, vertex in vertices.items():
         id = vertex.get_id()
-        degree = vertex.get_degree()
+        degree = vertex.get_out_degree()
         vertex.set_address(consume)
         consume = consume + degree * 28
 
@@ -45,8 +43,8 @@ def read_graph(file_name, mpu_num):
             edge_list.append(Edge(id, new_id, 1))
         mpu[mpu_n].write_edge_list(edge_list)
         mpu[mpu_n].append_work_list_item(wl)
-    print(mpu[0].read_work_list_item(0))
-    print(mpu[0].read_edge_list(0))
+    # print(mpu[0].read_work_list_item(0))
+    # print(mpu[0].read_edge_list(0))
 
     for _, value in vertices.items():
         vertex_list.append(value)
@@ -71,7 +69,7 @@ if __name__ == "__main__":
     vertex_list = read_graph("roadNet-CA.txt", mpu_num)
     print(vertex_list[0])
     # channels = create_channels(2, vertex_list)
-    
+
     # mpu = [MPU(i, sum, min) for i in range(mpu_num)]
     # for _, vertex in vertex_list:
     #     id = vertex.get_address()

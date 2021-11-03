@@ -1,6 +1,7 @@
 from json.encoder import JSONEncoder
 
-class Edge():
+
+class Edge:
     def __init__(self, vid, neighbor, weight):
         self.vid = vid
         self.neighbor = neighbor
@@ -15,7 +16,8 @@ class Edge():
     def get_weight(self):
         return self.weight
 
-class WorkListItem():
+
+class WorkListItem:
     def __init__(self, vid, temp_prop, prop, valid):
         self.vid = vid
         self.temp_prop = temp_prop
@@ -53,19 +55,22 @@ class WorkListItem():
     def __repr__(self):
         return str(self)
 
-class Vertex():
+
+class Vertex:
     def __init__(self, vid):
         self.id = vid
-        self.edges = []
-        self.degree = 0
         self.address = None
-        self.work_list_item = None
+        self.out_degree = 0
+        self.work_list_item = WorkListItem(
+            vid=self.id, temp_prop=-1, prop=-1, valid=False
+        )
+        self.edges = []
 
     def get_id(self):
         return self.id
 
-    def new_id(self, id):
-        self.id = id
+    def new_id(self, vid):
+        self.id = vid
 
     def add_edge(self, edge):
         self.edges.append(edge)
@@ -76,8 +81,8 @@ class Vertex():
     def get_edges(self):
         return self.edges
 
-    def get_degree(self):
-        return self.degree
+    def get_out_degree(self):
+        return self.out_degree
 
     def set_address(self, address):
         self.address = address
@@ -85,9 +90,8 @@ class Vertex():
     def get_address(self):
         return self.address
 
-    def increase_degree(self):
-        self.degree = int(self.get_degree()) + 1
-
+    def increase_out_degree(self):
+        self.out_degree = self.out_degree + 1
 
     def __str__(self):
         ret = f"EdgeList[id={self.id}, neighbours={self.edges}, degree={self.degree}]"

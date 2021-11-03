@@ -5,7 +5,6 @@ class WLEngine():
         self.op = operation
 
     def recv_update(self, update):
-        # TODO: check and handle the case where work_list_item doesn't exist in the memory
         work_list_item = self.owner.read_work_list_item(update.get_vid())
         if work_list_item.is_valid():
             vtemp = work_list_item.get_temp_prop()
