@@ -1,3 +1,4 @@
+from math import inf
 from json.encoder import JSONEncoder
 
 
@@ -58,14 +59,16 @@ class Vertex:
     def __init__(self, vid):
         self.id = vid
         self.address = None
-        self.in_degree = 0
-        self.out_degree = 0
-        self.work_list_item = WorkListItem(temp_prop=-1, prop=-1, valid=False)
+        self.degree = 0
+        self.work_list_item = WorkListItem(
+            temp_prop=inf, prop=inf, valid=False
+        )
         self.edges = []
 
     def get_id(self):
         return self.id
 
+    # NOTE: Probably not needed
     def new_id(self, vid):
         self.id = vid
 
@@ -78,16 +81,17 @@ class Vertex:
     def add_edge(self, edge):
         self.edges.append(edge)
 
+    # NOTE: Probably not needed
     def update_edge(self, new_edge, index):
         self.edges[index] = new_edge
 
     def get_edges(self):
         return self.edges
 
-    def get_in_degree(self):
-        return self.in_degree
+    def set_edges(self, edges):
+        self.edges = edges
 
-    def get_out_degree(self):
+    def get_degree(self):
         return self.out_degree
 
     def set_address(self, address):
@@ -96,17 +100,15 @@ class Vertex:
     def get_address(self):
         return self.address
 
-    def increase_out_degree(self):
-        self.out_degree = self.out_degree + 1
-
-    def increase_in_degree(self):
-        self.in_degree = self.in_degree + 1
+    def increase_degree(self):
+        self.degree = self.degree + 1
 
     def __str__(self):
-        return f"Vertex[id={self.id}, in_degree={self.in_degree}, out_degree={self.out_degree}, work_list={self.work_list_item}, edges={self.edges}]"
+        return f"Vertex[id={self.id}, degree={self.degree}, work_list={self.work_list_item}, edges={self.edges}]"
 
     def __repr__(self):
         return str(self)
+
 
 class VertexEncoder(JSONEncoder):
     def default(self, vertex):
