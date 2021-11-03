@@ -92,7 +92,7 @@ class Vertex:
         self.edges = edges
 
     def get_degree(self):
-        return self.out_degree
+        return self.degree
 
     def set_address(self, address):
         self.address = address
@@ -114,6 +114,8 @@ class VertexEncoder(JSONEncoder):
     def default(self, vertex):
         ret = dict()
         ret["id"] = vertex.get_id()
+        ret["address"] = vertex.get_address()
+        ret["degree"] = vertex.get_degree()
         ret["work_list_item"] = vertex.get_work_list_item().__dict__
         ret["edges"] = []
         for edge in vertex.get_edges():

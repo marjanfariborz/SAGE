@@ -16,12 +16,12 @@ def read_graph(file_name):
                 if src in vertices.keys():
                     edge = Edge(dst, 0)
                     vertices[src].add_edge(edge)
-                    vertices[src].increase_out_degree()
+                    vertices[src].increase_degree()
                 else:
                     vertices[src] = Vertex(src)
                     edge = Edge(dst, 0)
                     vertices[src].add_edge(edge)
-                    vertices[src].increase_out_degree()
+                    vertices[src].increase_degree()
 
     return vertices
 
@@ -53,6 +53,7 @@ def dict_to_list(graph):
     out_list = []
     for _, vertex in graph.items():
         out_list.append(vertex)
+    return out_list
 
 def initialize_mpu(vertices):
     vertex_list = []
@@ -111,4 +112,5 @@ if __name__ == "__main__":
     graph_dict = read_graph("roadNet-CA.txt")
     graph_dict = calculate_addresses(graph_dict)
     graph_list = dict_to_list(graph_dict)
+    # print(graph_list)
     graph_to_json(graph_list, "roadNet-CA.json")

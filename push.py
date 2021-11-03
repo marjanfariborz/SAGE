@@ -19,10 +19,11 @@ class Push():
             update = Update(edge.get_neighbor(), value)
             print(f"MPU{self.owner.get_id()}.Push: Created new update {update}")
             updates.append(update)
-        print(f"MPU{self.owner.get_id()}.Push: Sending new updates to network {updates}")
+        print(f"MPU{self.owner.get_id()}.Push: Sending updates.\nupdates: {updates}")
         self.send_updates(updates)
 
     def send_updates(self, updates):
+        print(f"MPU{self.owner.get_id()}.Push: Sending new updates to network {updates}")
         self.owner.recv_updates(updates)
 
     # def send_update(self, vid, value):
