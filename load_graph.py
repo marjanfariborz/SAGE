@@ -1,9 +1,6 @@
-import re
 import json
 
-from mpu import MPU
 from vertex import Edge, Vertex, VertexEncoder
-
 
 def read_graph(file_name):
     vertices = {}
