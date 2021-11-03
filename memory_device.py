@@ -15,9 +15,12 @@ class MemoryDevice():
 
     def read_edge_list(self, vid):
         for edge_list in self.edge_lists:
-            if edge_list.get_id() == vid:
+            if edge_list[0].get_id() == vid:
                 return edge_list
         raise Exception(f"Could not find the edge list with vid: {vid}")
+
+    def append_work_list_item(self, wl_item):
+        self.work_list.append(wl_item)
 
     def write_work_list_item(self, wl_item):
         for i in range(len(self.work_list)):
