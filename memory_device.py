@@ -1,3 +1,13 @@
+class Solution():
+    def __init__(self, vid, prop):
+        self.vid = vid
+        self.prop = prop
+
+    def __str__(self):
+        return f"[vid={self.vid}, prop={self.prop}]"
+
+    def __repr__(self):
+        return str(self)
 
 class MemoryDevice():
     def __init__(self, owner):
@@ -39,6 +49,12 @@ class MemoryDevice():
             if vertex.get_id() == vid:
                 return True
         return False
+
+    def get_solutions(self):
+        solutions = []
+        for vertex in self.vertices:
+            solutions.append(Solution(vertex.get_id(), vertex.get_work_list_item().get_prop()))
+        return solutions
 
     def __str__(self):
         return f"MemoryDevice[vertices={self.vertices}]"

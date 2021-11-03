@@ -24,7 +24,10 @@ class Network():
                         self.mpus[i].recv_update(update)
             print("Network: Emptied the queue. Deactivating.")
             self.active = False
-            print(self.mpus)
+            solutions = []
+            for mpu in self.mpus:
+                solutions = solutions + mpu.get_solutions()
+            print(f"Network: Printing the current solutions.\nsolutions: {solutions}")
 
     def send_initial_update(self, update):
         print(f"Network: Sending the first update to start the algorithm.")

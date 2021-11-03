@@ -48,6 +48,9 @@ class MPU():
     def has_vertex(self, vid):
         return self.mem_dev.has_vertex(vid)
 
+    def get_solutions(self):
+        return self.mem_dev.get_solutions()
+
     def __str__(self):
         return f"MPU[id={self.id}, memory={self.mem_dev}]"
 
