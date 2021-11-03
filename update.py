@@ -13,3 +13,9 @@ class Update():
 
     def get_weight(self):
         return self.weight
+
+    def __str__(self):
+        return f"Update[vid={self.vid}, value={self.value}, weight={self.weight}]"
+
+    def __repr__(self):
+        return str(self)

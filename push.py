@@ -13,10 +13,10 @@ class Push():
         for edge in edges:
             update = Update(edge.get_neighbor(), new_prop, edge.get_weight())
             updates.append(update)
-        self.send_update(updates)
+        self.send_updates(updates)
 
-    def send_update(self, updates):
-        self.owner.recv_update(updates)
+    def send_updates(self, updates):
+        self.owner.recv_updates(updates)
     # def send_update(self, vid, value):
     #     if (vid % 2) == self.owner.get_id():
     #         self.localQ.append({vid, value})

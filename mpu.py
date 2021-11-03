@@ -33,8 +33,11 @@ class MPU():
     def recv_work(self, edges, new_prop):
         self.push.recv_work(edges, new_prop)
 
-    def recv_update(self, updates):
+    def recv_updates(self, updates):
         self.network.recv_update(updates)
+
+    def recv_update(self, update):
+        self.wl_engine.recv_update(update)
 
     def get_id(self):
         return self.id
