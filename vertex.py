@@ -103,7 +103,7 @@ class Vertex:
         self.in_degree = self.in_degree + 1
 
     def __str__(self):
-        return f"Vertex[id={self.id}, in_degree={self.in_degree}, out_degree={self.out_degree}, work_list={str(self.work_list_item)}, edges={str(self.edges)}]"
+        return f"Vertex[id={self.id}, in_degree={self.in_degree}, out_degree={self.out_degree}, work_list={self.work_list_item}, edges={self.edges}]"
 
     def __repr__(self):
         return str(self)

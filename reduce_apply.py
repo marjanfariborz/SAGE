@@ -14,10 +14,11 @@ class Apply():
             temp_prop = work_list_item.get_temp_prop()
             prop = work_list_item.get_prop()
             new_prop = self.operation(temp_prop, prop)
-            work_list_item.invalidate()
+            # TODO: Talk to Marjan about this
+            # work_list_item.invalidate()
             if new_prop != prop:
                 work_list_item.set_prop(new_prop)
-                self.owner.write_work_list_item(work_list_item)
+                self.owner.write_work_list_item(candidate, work_list_item)
                 edges = self.owner.read_edge_list(candidate)
                 self.send_work(edges, new_prop)
 

@@ -18,8 +18,8 @@ class MPU():
     def append_work_list_item(self, item):
         self.mem_dev.append_work_list_item(item)
 
-    def write_work_list_item(self, item):
-        self.mem_dev.write_work_list_item(item)
+    def write_work_list_item(self, vid, item):
+        self.mem_dev.write_work_list_item(vid, item)
 
     def write_edge_list(self, edge_list):
         self.mem_dev.write_edge_list(edge_list)
@@ -42,3 +42,8 @@ class MPU():
     def get_id(self):
         return self.id
 
+    def add_vertex(self, vertex):
+        self.mem_dev.add_vertex(vertex)
+
+    def has_vertex(self, vid):
+        return self.mem_dev.has_vertex(vid)
