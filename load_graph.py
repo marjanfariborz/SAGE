@@ -1,7 +1,9 @@
 import re
-from vertex import Vertex
+from math import inf
+from vertex import Vertex, WorkListItem, Edge
+from mpu import MPU
 
-def read_graph(file_name):
+def read_graph(file_name, mpu_num):
     vertices = {}
     count = 0
     pf_sum = []
@@ -29,13 +31,22 @@ def read_graph(file_name):
         consume = consume + degree * 28
 
     vertex_list = []
+    mpu = [MPU(i, sum, min) for i in range(mpu_num)]
     for _, vertex in vertices.items():
         neighbors = vertex.get_edges()
+        id = vertex.get_address()
+        mpu_n = id % mpu_num
+        wl = WorkListItem(id, float(inf), float(inf), 0)
+        edge_list = []
         for i in range(len(neighbors)):
             neighbor = neighbors[i]
             new_id = vertices[neighbor].get_address()
             vertex.update_edge(new_id, i)
-        # print(vertex.get_id(), vertex.get_edges())
+            edge_list.append(Edge(id, new_id, 1))
+        mpu[mpu_n].write_edge_list(edge_list)
+        mpu[mpu_n].append_work_list_item(wl)
+    print(mpu[0].read_work_list_item(0))
+    print(mpu[0].read_edge_list(0))
 
     for _, value in vertices.items():
         vertex_list.append(value)
@@ -56,6 +67,19 @@ def create_channels(num_channels, vertex_list):
 
 if __name__ == "__main__":
     # graph_to_json("roadNet-CA.txt")
-    vertex_list = read_graph("roadNet-CA.txt")
+    mpu_num = 2
+    vertex_list = read_graph("roadNet-CA.txt", mpu_num)
+    print(vertex_list[0])
     # channels = create_channels(2, vertex_list)
-    print(vertex_list)
+    
+    # mpu = [MPU(i, sum, min) for i in range(mpu_num)]
+    # for _, vertex in vertex_list:
+    #     id = vertex.get_address()
+    #     mpu_n = id % mpu_num
+    #     wl = WorkListItem(id, int(inf), int(inf), 0)
+    #     neighbors = vertex.get_edges
+    #     edge_list = []
+    #     for neighbor in neighbors:
+    #         edge_list.append(Edge(id, neighbor, 1))
+    #     mpu[mpu_n].write_edge_list(edge_list)
+    #     mpu[mpu_n].write_work_list_item(wl)

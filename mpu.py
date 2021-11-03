@@ -14,6 +14,9 @@ class MPU():
     def read_work_list_item(self, vid):
         return self.mem_dev.read_work_list_item(vid)
 
+    def append_work_list_item(self, item):
+        self.mem_dev.append_work_list_item(item)
+
     def write_work_list_item(self, item):
         self.mem_dev.write_work_list_item(item)
 
@@ -21,7 +24,7 @@ class MPU():
         self.mem_dev.write_edge_list(edge_list)
 
     def read_edge_list(self, vid):
-        self.mem_dev.read_work_list_item(vid)
+        self.mem_dev.read_edge_list(vid)
 
     def get_id(self):
         return self.id
