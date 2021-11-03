@@ -2,13 +2,9 @@ from json.encoder import JSONEncoder
 
 
 class Edge:
-    def __init__(self, vid, neighbor, weight):
-        self.vid = vid
+    def __init__(self, neighbor, weight):
         self.neighbor = neighbor
         self.weight = weight
-
-    def get_vid(self):
-        return self.vid
 
     def get_neighbor(self):
         return self.neighbor
@@ -23,14 +19,10 @@ class Edge:
         return str(self)
 
 class WorkListItem:
-    def __init__(self, vid, temp_prop, prop, valid):
-        self.vid = vid
+    def __init__(self, temp_prop, prop, valid):
         self.temp_prop = temp_prop
         self.prop = prop
         self.valid = valid
-
-    def get_vid(self):
-        return self.vid
 
     def get_temp_prop(self):
         return self.temp_prop
@@ -59,7 +51,6 @@ class WorkListItem:
 
     def __repr__(self):
         return str(self)
-
 
 class Vertex:
     def __init__(self, vid):

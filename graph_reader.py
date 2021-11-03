@@ -1,6 +1,6 @@
 import re
 
-
+from vertex import Edge, Vertex
 
 def read_graph(file_name):
     vertices = {}
@@ -12,9 +12,12 @@ def read_graph(file_name):
                 src = int(src)
                 dst = int(dst)
                 if src in vertices.keys():
-                    vertices[src].add_neighbor(dst)
+                    # TODO: read weight from graph
+                    edge = Edge(dst, 0)
+                    vertices[src].add_edge(edge)
+
                 else:
-                    vertices[src] = Vertex(src, dst)
+                    vertices[src] = Vertex(src)
 
     vertex_list = []
     for _, value in vertices.items():
