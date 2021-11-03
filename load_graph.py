@@ -41,7 +41,8 @@ def update_edges(graph):
             weight = edge.get_weight()
             dst_addr = graph[dst_vid].get_address()
             new_edge = Edge(dst_addr, weight)
-            new_edges.append(new_edges)
+            new_edges.append(new_edge)
+        print(f"vid: {vid}, new_edges: {new_edges}")
         graph[vid].set_edges(new_edges)
 
     return graph
