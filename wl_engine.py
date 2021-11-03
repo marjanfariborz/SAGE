@@ -16,3 +16,4 @@ class WLEngine():
             work_list_item.set_temp_prop(vtemp)
             work_list_item.validate()
         self.owner.write_work_list_item(work_list_item)
+        self.owner.recv_candidate(update.get_vid())

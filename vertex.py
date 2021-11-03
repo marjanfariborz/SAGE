@@ -13,10 +13,11 @@ class Edge:
         return self.weight
 
     def __str__(self):
-        return f"Edge[vid={self.vid}, neighbor={self.neighbor}, weight={self.weight}]"
+        return f"Edge[neighbor={self.neighbor}, weight={self.weight}]"
 
     def __repr__(self):
         return str(self)
+
 
 class WorkListItem:
     def __init__(self, temp_prop, prop, valid):
@@ -30,7 +31,7 @@ class WorkListItem:
     def get_prop(self):
         return self.prop
 
-    def set_prop(self, temp_prop):
+    def set_temp_prop(self, temp_prop):
         self.temp_prop = temp_prop
 
     def set_prop(self, prop):
@@ -46,20 +47,20 @@ class WorkListItem:
         self.valid = False
 
     def __str__(self):
-        ret = f"WorkListItem[vid={self.vid}, temp_prop={self.temp_prop}, prop={self.prop}, valid={self.valid}]"
+        ret = f"WorkListItem[temp_prop={self.temp_prop}, prop={self.prop}, valid={self.valid}]"
         return ret
 
     def __repr__(self):
         return str(self)
 
+
 class Vertex:
     def __init__(self, vid):
         self.id = vid
         self.address = None
+        self.in_degree = 0
         self.out_degree = 0
-        self.work_list_item = WorkListItem(
-            vid=self.id, temp_prop=-1, prop=-1, valid=False
-        )
+        self.work_list_item = WorkListItem(temp_prop=-1, prop=-1, valid=False)
         self.edges = []
 
     def get_id(self):
@@ -83,6 +84,9 @@ class Vertex:
     def get_edges(self):
         return self.edges
 
+    def get_in_degree(self):
+        return self.in_degree
+
     def get_out_degree(self):
         return self.out_degree
 
@@ -95,8 +99,11 @@ class Vertex:
     def increase_out_degree(self):
         self.out_degree = self.out_degree + 1
 
+    def increase_in_degree(self):
+        self.in_degree = self.in_degree + 1
+
     def __str__(self):
-        return f"Vertex[id={self.id}, degree={self.degree}, work_list={str(self.work_list_item)}, edges={str(self.edges)}]"
+        return f"Vertex[id={self.id}, in_degree={self.in_degree}, out_degree={self.out_degree}, work_list={str(self.work_list_item)}, edges={str(self.edges)}]"
 
     def __repr__(self):
         return str(self)

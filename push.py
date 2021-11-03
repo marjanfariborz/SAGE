@@ -1,3 +1,4 @@
+from update import Update
 
 
 class Push():
@@ -7,18 +8,20 @@ class Push():
         self.localQ = []
         self.globalQ = []
 
-    def recv_update(self, edges, temp_prop):
-        self.owner.read_apply()
-        self.value = temp_prop
-        self.weight = edges.get_weight()
-        self.vid = edges.get_neighbor()
-        self.push(self)
+    def recv_work(self, edges, new_prop):
+        updates = []
+        for edge in edges:
+            update = Update(edge.get_neighbor(), new_prop, edge.get_weight())
+            updates.append(update)
+        self.send_update(updates)
 
-    def send_update(self, vid, value):
-        if (vid % 2) == self.owner.get_id():
-            self.localQ.append({vid, value})
-        else:
-            self.globalQ.append({vid, value})
+    def send_update(self, updates):
+        self.owner.recv_update(updates)
+    # def send_update(self, vid, value):
+    #     if (vid % 2) == self.owner.get_id():
+    #         self.localQ.append({vid, value})
+    #     else:
+    #         self.globalQ.append({vid, value})
 
     def push(self):
         propagate = self.operation
