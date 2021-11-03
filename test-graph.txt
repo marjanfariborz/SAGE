@@ -1,6 +1,6 @@
 # Test graph
 # Test graph for SAGE
-# Nodes: 6 Edges: 8
+# Nodes: 6 Edges: 7
 # FromNodeId	ToNodeId
 0 1
 0 2
