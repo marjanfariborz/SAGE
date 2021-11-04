@@ -1,11 +1,9 @@
-import re
-from math import inf
-from vertex import Vertex, WorkListItem, Edge
-from mpu import MPU
+import json
 
-def read_graph(file_name, mpu_num):
+from vertex import Edge, Vertex, VertexEncoder
+
+def read_graph(file_name):
     vertices = {}
-    count = 0
     with open(file_name, "r") as graph:
         for line in graph.readlines():
             if not line.startswith("#"):
@@ -13,21 +11,49 @@ def read_graph(file_name, mpu_num):
                 src = int(src)
                 dst = int(dst)
                 if src in vertices.keys():
-                    vertices[src].add_edge(dst)
-                    vertices[src].increase_out_degree()
+                    edge = Edge(dst, 0)
+                    vertices[src].add_edge(edge)
+                    vertices[src].increase_degree()
                 else:
-                    count = count + 1
                     vertices[src] = Vertex(src)
-                    vertices[src].add_edge(dst)
-                    vertices[src].increase_out_degree()
-    degree = []
-    consume = 0
-    for _, vertex in vertices.items():
-        id = vertex.get_id()
-        degree = vertex.get_out_degree()
-        vertex.set_address(consume)
-        consume = consume + degree * 28
+                    edge = Edge(dst, 0)
+                    vertices[src].add_edge(edge)
+                    vertices[src].increase_degree()
 
+    return vertices
+
+def calculate_addresses(graph):
+    consume = 0
+    for vid in graph.keys():
+        degree = graph[vid].get_degree()
+        graph[vid].set_address(consume)
+        consume = consume + 16 + (degree * 12)
+        consume = consume + (64 - (consume % 64))
+
+    return graph
+
+def update_edges(graph):
+    for vid in graph.keys():
+        edges = graph[vid].get_edges()
+        new_edges = []
+        for edge in edges:
+            dst_vid = edge.get_neighbor()
+            weight = edge.get_weight()
+            dst_addr = graph[dst_vid].get_address()
+            new_edge = Edge(dst_addr, weight)
+            new_edges.append(new_edge)
+        print(f"vid: {vid}, new_edges: {new_edges}")
+        graph[vid].set_edges(new_edges)
+
+    return graph
+
+def dict_to_list(graph):
+    out_list = []
+    for _, vertex in graph.items():
+        out_list.append(vertex)
+    return out_list
+
+def initialize_mpu(vertices):
     vertex_list = []
     mpu = [MPU(i, sum, min) for i in range(mpu_num)]
     for _, vertex in vertices.items():
@@ -51,11 +77,9 @@ def read_graph(file_name, mpu_num):
 
     return vertex_list
 
-def graph_to_json(file_name):
-    vertex_list = read_graph(file_name)
-    json_name = re.sub(r"\..*", ".json", file_name)
-    with open(json_name, "w") as json_file:
-        json.dump(vertex_list, json_file, indent = 2, cls = VertexEncoder)
+def graph_to_json(graph, out_name):
+    with open(out_name, "w") as json_file:
+        json.dump(graph, json_file, indent = 2, cls = VertexEncoder)
 
 def create_channels(num_channels, vertex_list):
     channels = [Channel(i) for i in range(num_channels)]
@@ -63,11 +87,13 @@ def create_channels(num_channels, vertex_list):
         channels[(vertex.id % num_channels)].add_vertex(vertex)
     return channels
 
+
+
 if __name__ == "__main__":
     # graph_to_json("roadNet-CA.txt")
-    mpu_num = 2
-    vertex_list = read_graph("roadNet-CA.txt", mpu_num)
-    print(vertex_list[0])
+    # mpu_num = 2
+    # vertex_list = read_graph("roadNet-CA.txt", mpu_num)
+    # print(vertex_list[0])
     # channels = create_channels(2, vertex_list)
 
     # mpu = [MPU(i, sum, min) for i in range(mpu_num)]
@@ -81,3 +107,10 @@ if __name__ == "__main__":
     #         edge_list.append(Edge(id, neighbor, 1))
     #     mpu[mpu_n].write_edge_list(edge_list)
     #     mpu[mpu_n].write_work_list_item(wl)
+    graph_dict = read_graph("test-graph.txt")
+    graph_dict = calculate_addresses(graph_dict)
+    graph_list = dict_to_list(graph_dict)
+    graph_to_json(graph_list, "test-graph.json")
+    graph_dict = update_edges(graph_dict)
+    graph_list = dict_to_list(graph_dict)
+    graph_to_json(graph_list, 'test-graph-renamed.json')
