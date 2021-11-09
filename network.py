@@ -4,6 +4,9 @@ class Network():
         self.mpus = []
         self.active = False
 
+    def get_name(self):
+        return "Network"
+
     def recv_updates(self, updates):
         print(f"Network: Received updates.\nupdates: {updates}")
         print(f"Network: Added updates to the queue.\nqueue: {self.queue}")
