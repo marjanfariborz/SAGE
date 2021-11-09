@@ -95,4 +95,4 @@ class MPU(Anything):
         return f"MPU[id={self.id}, memory={self.mem_dev}]"
 
     def __repr__(self):
-        return "\n\n" + str(self)
+        return str(self)
