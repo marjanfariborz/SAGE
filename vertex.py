@@ -54,6 +54,14 @@ class WorkListItem:
     def __repr__(self):
         return str(self)
 
+class VertexStats():
+    def __init__(self):
+        self.num_wl_item_reads = 0
+        self.num_wl_item_writes = 0
+        self.num_edge_list_reads = 0
+
+    def get_dict(self):
+        return self.__dict__
 
 class Vertex:
     def __init__(self, vid):
@@ -64,6 +72,7 @@ class Vertex:
             temp_prop=inf, prop=inf, valid=False
         )
         self.edges = []
+        self.stats = VertexStats()
 
     def get_id(self):
         return self.id
@@ -73,9 +82,11 @@ class Vertex:
         self.id = vid
 
     def get_work_list_item(self):
+        self.stats.num_wl_item_reads += 1
         return self.work_list_item
 
     def set_work_list_item(self, item):
+        self.stats.num_wl_item_writes += 1
         self.work_list_item = item
 
     def add_edge(self, edge):
@@ -86,6 +97,7 @@ class Vertex:
         self.edges[index] = new_edge
 
     def get_edges(self):
+        self.stats.num_edge_list_reads += 1
         return self.edges
 
     def set_edges(self, edges):
@@ -102,6 +114,12 @@ class Vertex:
 
     def increase_degree(self):
         self.degree = self.degree + 1
+
+    def get_stats(self):
+        stats = self.stats.get_dict()
+        stats["vid"] = self.id
+        stats["degree"] = self.degree
+        return stats
 
     def __str__(self):
         return f"Vertex[id={self.id}, degree={self.degree}, work_list={self.work_list_item}, edges={self.edges}]"

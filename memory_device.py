@@ -1,3 +1,4 @@
+from os import stat
 from anything import Anything
 class Solution():
     def __init__(self, vid, prop):
@@ -57,6 +58,12 @@ class MemoryDevice(Anything):
         for vertex in self.vertices:
             solutions.append(Solution(vertex.get_id(), vertex.get_work_list_item().get_prop()))
         return solutions
+
+    def get_vertex_stats(self):
+        stats = []
+        for vertex in self.vertices:
+            stats.append(vertex.get_stats())
+        return stats
 
     def __str__(self):
         return f"MemoryDevice[vertices={self.vertices}]"

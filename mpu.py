@@ -1,8 +1,8 @@
 from push import Push
 from apply import Apply
 from anything import Anything
-from argparse import Namespace
 from wl_engine import WLEngine
+from types import SimpleNamespace
 from memory_device import MemoryDevice
 
 
@@ -23,7 +23,7 @@ class DebugFlags():
                 self.push_debug = flags["push_debug"]
             if "mem_dev_debug" in flags:
                 self.mem_dev_debug = flags["mem_dev_debug"]
-        elif isinstance(flags, Namespace):
+        elif isinstance(flags, SimpleNamespace):
             if flags.wl_engine_debug is not None:
                 self.wl_engine_debug = flags.wl_engine_debug
             if flags.apply_debug is not None:
@@ -35,7 +35,7 @@ class DebugFlags():
         elif flags is None:
             pass
         else:
-            raise Exception("DebugFlags.set_flags only accepts a dictionary, an argparse.Namespace, or a None")
+            raise Exception("DebugFlags.set_flags only accepts a dictionary, an SimpleNamespace, or a None")
 
 class MPU(Anything):
     def __init__(self, mid, network, propagate, reduce, debug_flags=None):
@@ -90,6 +90,9 @@ class MPU(Anything):
 
     def get_solutions(self):
         return self.mem_dev.get_solutions()
+
+    def get_vertex_stats(self):
+        return self.mem_dev.get_vertex_stats()
 
     def __str__(self):
         return f"MPU[id={self.id}, memory={self.mem_dev}]"
