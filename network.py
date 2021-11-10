@@ -1,42 +1,55 @@
 class Network():
-    def __init__(self):
+    def __init__(self, debug_print=False):
         self.queue = []
         self.mpus = []
         self.active = False
+        self.name = "Network"
+        self.debug_print = debug_print
+
+    def get_name(self):
+        return self.name
+
+    def print_debug(self, debug):
+        if self.debug_print:
+            print(f"{self.name}: {debug}")
 
     def recv_updates(self, updates):
-        print(f"Network: Received updates.\nupdates: {updates}")
-        print(f"Network: Added updates to the queue.\nqueue: {self.queue}")
+        self.print_debug(f"Received updates.\nupdates: {updates}")
+        self.print_debug(f"Added updates to the queue.\nqueue: {self.queue}")
         self.queue = self.queue + updates
         if not self.active:
-            print(f"Network: Activating.")
+            self.print_debug(f"Network: Activating.")
             self.active = True
             while len(self.queue) != 0:
-                print(f"Network: Sending updates from the queue.")
+                self.print_debug("Network: Sending updates from the queue.")
                 update = self.queue.pop(0)
-                print(f"Network: Update picked from the top of queue {update}.")
+                self.print_debug(f"Update picked from the top of queue {update}.")
                 vid = update.get_vid()
-                print(f"Network: Update is to vid {vid}.")
+                self.print_debug(f"Update is to vid {vid}.")
                 for i in range(len(self.mpus)):
                     if self.mpus[i].has_vertex(vid):
-                        print(f"Network: Found vid {vid} in MPU{i}.")
-                        print(f"Network: Sending the update to MPU{i}")
+                        self.print_debug(f"Found vid {vid} in MPU{i}.")
+                        self.print_debug(f"Sending the update to MPU{i}")
                         self.mpus[i].recv_update(update)
-            print("Network: Emptied the queue. Deactivating.")
+            self.print_debug("Emptied the queue. Deactivating.")
             self.active = False
             solutions = []
+            vertex_stats = []
             for mpu in self.mpus:
                 solutions = solutions + mpu.get_solutions()
-            print(f"Network: Printing the current solutions.\nsolutions: {solutions}")
+                vertex_stats += mpu.get_vertex_stats()
+
+            print(f"Printing the current solutions.\nsolutions: {solutions}")
+            print(f"Printing the vertex stats.\n VertexStats: {vertex_stats}")
 
     def send_initial_update(self, update):
-        print(f"Network: Sending the first update to start the algorithm.")
-        print(f"Network: Initial update: {update}")
+        self.print_debug("Sending the first update to start the algorithm.")
+        self.print_debug(f"Initial update: {update}")
         vid = update.get_vid()
         for i in range(len(self.mpus)):
             if self.mpus[i].has_vertex(vid):
-                print(f"Network: Found vid {vid} in MPU{i}.")
-                print(f"Network: Sending the update to MPU{i}")
+                self.print_debug(f"Found vid {vid} in MPU{i}.")
+                self.print_debug(f"Sending the update to MPU{i}")
                 self.mpus[i].recv_update(update)
 
     def set_mpus(self, mpus):

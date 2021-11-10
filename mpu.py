@@ -1,16 +1,56 @@
-from wl_engine import WLEngine
-from memory_device import MemoryDevice
-from apply import Apply
 from push import Push
+from apply import Apply
+from anything import Anything
+from wl_engine import WLEngine
+from types import SimpleNamespace
+from memory_device import MemoryDevice
 
-class MPU():
-    def __init__(self, mid, network, propagate, reduce):
-        self.id = mid
-        self.wl_engine = WLEngine(self, reduce)
-        self.reduce_apply = Apply(self, reduce)
-        self.push = Push(self, propagate)
-        self.mem_dev = MemoryDevice(self)
+
+class DebugFlags():
+    def __init__(self):
+        self.wl_engine_debug = False
+        self.apply_debug = False
+        self.push_debug = False
+        self.mem_dev_debug = False
+
+    def set_flags(self, flags):
+        if isinstance(flags, dict):
+            if "wl_engine_debug" in flags:
+                self.wl_engine_debug = flags["wl_engine_debug"]
+            if "apply_debug" in flags:
+                self.apply_debug = flags["apply_debug"]
+            if "push_debug" in flags:
+                self.push_debug = flags["push_debug"]
+            if "mem_dev_debug" in flags:
+                self.mem_dev_debug = flags["mem_dev_debug"]
+        elif isinstance(flags, SimpleNamespace):
+            if flags.wl_engine_debug is not None:
+                self.wl_engine_debug = flags.wl_engine_debug
+            if flags.apply_debug is not None:
+                self.apply_debug = flags.apply_debug
+            if flags.push_debug is not None:
+                self.push_debug = flags.push_debug
+            if flags.mem_dev_debug is not None:
+                self.mem_dev_debug = flags.mem_dev_debug
+        elif flags is None:
+            pass
+        else:
+            raise Exception("DebugFlags.set_flags only accepts a dictionary, an SimpleNamespace, or a None")
+
+class MPU(Anything):
+    def __init__(self, mid, network, propagate, reduce, debug_flags=None):
+        super().__init__(network, mid, debug_print=False)
+        self.set_name()
+        self.debug_flags = DebugFlags()
+        self.debug_flags.set_flags(debug_flags)
+        self.wl_engine = WLEngine(self, 0, reduce, debug_print=self.debug_flags.wl_engine_debug)
+        self.apply = Apply(self, 0, reduce, debug_print=self.debug_flags.apply_debug)
+        self.push = Push(self, 0, propagate, debug_print=self.debug_flags.push_debug)
+        self.mem_dev = MemoryDevice(self, 0, debug_print=self.debug_flags.mem_dev_debug)
         self.network = network
+
+    def get_name(self):
+        return self.name
 
     def read_work_list_item(self, vid):
         return self.mem_dev.read_work_list_item(vid)
@@ -28,7 +68,7 @@ class MPU():
         return self.mem_dev.read_edge_list(vid)
 
     def recv_candidate(self, vid):
-        self.reduce_apply.recv_candidate(vid)
+        self.apply.recv_candidate(vid)
 
     def recv_work(self, edges, new_prop):
         self.push.recv_work(edges, new_prop)
@@ -51,8 +91,11 @@ class MPU():
     def get_solutions(self):
         return self.mem_dev.get_solutions()
 
+    def get_vertex_stats(self):
+        return self.mem_dev.get_vertex_stats()
+
     def __str__(self):
         return f"MPU[id={self.id}, memory={self.mem_dev}]"
 
     def __repr__(self):
-        return "\n\n" + str(self)
+        return str(self)
