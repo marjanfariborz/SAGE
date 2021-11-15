@@ -29,10 +29,6 @@ class MemoryDevice(Anything):
                 return edges
         raise Exception(f"I don't have a vertex with id {vid}")
 
-    # TODO: Ask Marjan about this
-    def append_work_list_item(self, wl_item):
-        self.work_list.append(wl_item)
-
     def read_work_list_item(self, vid):
         self.print_debug(f"Fetching the WorkListItem for vid {vid}.")
         for vertex in self.vertices:

@@ -94,6 +94,13 @@ class MPU(Anything):
     def get_vertex_stats(self):
         return self.mem_dev.get_vertex_stats()
 
+    def get_stats(self):
+        wl_stats = self.wl_engine.get_stats()
+        apply_stats = self.apply.get_stats()
+        push_stats = self.push.get_stats()
+        ret = [wl_stats, apply_stats, push_stats]
+        return ret
+
     def __str__(self):
         return f"MPU[id={self.id}, memory={self.mem_dev}]"
 

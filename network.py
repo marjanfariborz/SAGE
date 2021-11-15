@@ -5,6 +5,9 @@ class Network():
         self.active = False
         self.name = "Network"
         self.debug_print = debug_print
+        self.solution = []
+        self.vertex_stats = []
+        self.mpu_stats = []
 
     def get_name(self):
         return self.name
@@ -33,14 +36,10 @@ class Network():
                         self.mpus[i].recv_update(update)
             self.print_debug("Emptied the queue. Deactivating.")
             self.active = False
-            solutions = []
-            vertex_stats = []
             for mpu in self.mpus:
-                solutions = solutions + mpu.get_solutions()
-                vertex_stats += mpu.get_vertex_stats()
-
-            print(f"Printing the current solutions.\nsolutions: {solutions}")
-            print(f"Printing the vertex stats.\n VertexStats: {vertex_stats}")
+                self.solution += mpu.get_solutions()
+                self.vertex_stats += mpu.get_vertex_stats()
+                self.mpu_stats += mpu.get_stats()
 
     def send_initial_update(self, update):
         self.print_debug("Sending the first update to start the algorithm.")
@@ -54,3 +53,12 @@ class Network():
 
     def set_mpus(self, mpus):
         self.mpus = mpus
+
+    def get_vertex_stats(self):
+        return self.vertex_stats
+
+    def get_solution(self):
+        return self.solution
+
+    def get_mpu_stats(self):
+        return self.mpu_stats

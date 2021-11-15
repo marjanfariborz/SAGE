@@ -116,10 +116,11 @@ class Vertex:
         self.degree = self.degree + 1
 
     def get_stats(self):
+        meta_data = {"vid": self.id, "degree": self.degree}
         stats = self.stats.get_dict()
-        stats["vid"] = self.id
-        stats["degree"] = self.degree
-        return stats
+        meta_data.update(stats)
+        ret = meta_data
+        return ret
 
     def __str__(self):
         return f"Vertex[id={self.id}, degree={self.degree}, work_list={self.work_list_item}, edges={self.edges}]"

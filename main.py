@@ -1,7 +1,7 @@
 import sys
+import json
 import types
 import argparse
-
 
 from mpu import MPU
 from os import mkdir
@@ -111,6 +111,18 @@ if __name__ == "__main__":
         sys.stderr = sage_stderr
 
     network.send_initial_update(initial_update)
+
+    solution = network.get_solution()
+    with open(join(sim_flags.outdir, "solution.txt"), "w") as sol_file:
+        sol_file.write(str(solution))
+
+    vertex_stats = network.get_vertex_stats()
+    with open(join(sim_flags.outdir, "vertex_stats.json"), "w") as vertex_file:
+        json.dump(vertex_stats, vertex_file)
+
+    mpu_stats = network.get_mpu_stats()
+    with open(join(sim_flags.outdir, "mpu_stats.json"), "w") as mpu_file:
+        json.dump(mpu_stats, mpu_file)
 
     if sim_flags.re:
         sage_stdout.close()
